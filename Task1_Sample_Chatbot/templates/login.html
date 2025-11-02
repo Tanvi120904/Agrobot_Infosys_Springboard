@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Agriculture Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    
+    <div class="background-image"></div> <!-- ✅ background div -->
+
+    <div class="form-container">
+        <h2>Login</h2>
+        <form method="POST" onsubmit="clearFieldsAfterSubmit()">
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="/register">Register</a></p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash">
+                {% for category, message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- ✅ clear fields script -->
+    <script>
+    function clearFieldsAfterSubmit() {
+        setTimeout(() => {
+            document.querySelectorAll('input[type="text"], input[type="password"]').forEach(input => {
+                input.value = "";
+            });
+        }, 100);
+    }
+    </script>
+</body>
+</html>

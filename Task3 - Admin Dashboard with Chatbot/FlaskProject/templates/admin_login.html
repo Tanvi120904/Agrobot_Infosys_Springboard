@@ -1,25 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Admin Login</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="utf-8">
+  <title>Agri Chatbot – Admin Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="bg">
-<div class="auth-container">
-  <h2>Admin Sign In</h2>
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      {% for cat,msg in messages %}
-        <div class="flash {{ cat }}">{{ msg }}</div>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
-  <form method="post">
-    <input name="username" placeholder="Admin username" required>
-    <input name="password" type="password" placeholder="Admin password" required>
-    <button type="submit">Login</button>
-  </form>
-</div>
+<body>
+
+  <div class="background-image"></div>
+
+  <div class="form-container">
+    <h2>Admin Panel 🔒</h2>
+    <p class="subtitle">Sign in to manage the Agri Chatbot system</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash">
+          {% for category, message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" onsubmit="clearFieldsAfterSubmit()">
+      <input type="text" name="username" placeholder="Admin username" required>
+      <input type="password" name="password" placeholder="Admin password" required>
+      <button type="submit">Login</button>
+    </form>
+
+    <p class="note">This section is restricted to administrators only.</p>
+  </div>
+
+  <script>
+    function clearFieldsAfterSubmit() {
+      setTimeout(() => {
+        document.querySelectorAll('input[type="text"], input[type="password"]').forEach(i => i.value = "");
+      }, 100);
+    }
+  </script>
+
 </body>
 </html>

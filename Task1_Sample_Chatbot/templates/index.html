@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI-AgroBot Chat</title>
+    <!-- Use a modern, agricultural-themed font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <div class="background-image"></div> <!-- ✅ Fixed background div -->
+    
+    <div class="main-wrapper">
+       
+        <div class="chat-container">
+            <!-- Header Section -->
+            <header class="chat-header">
+                <h2>AI-AgroBot 🌿</h2>
+                <p class="welcome-message">
+                    Welcome, <strong>{{ session['username'] }}</strong>! 
+                    <a href="/logout" class="logout-link" title="Log out of the application.">Logout</a>
+                </p>
+            </header>
+
+            <!-- Chat Display Area -->
+            <div id="chat-box" class="chat-box">
+                <!-- Initial Bot Message -->
+                <div class='message-bubble bot-msg initial-msg'>
+                   <b> 🤖 AgroBot:</b> Hello! I'm your AI-AgroBot Universal Agricultural Assistant. How can I help you manage your crops, diagnose issues, or address farming queries today? 
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-box">
+                <input type="text" id="user-input" placeholder="Ask about pests, fertilizer, market prices, or weather..." autofocus /> 
+                <button onclick="sendMessage()" title="Send Message">
+                    <!-- Modern Paper Plane Icon (lucide-react style) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="send-icon">
+                        <path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript Logic (UNMODIFIED) -->
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (!userInput) return;
+            const chatBox = document.getElementById("chat-box");
+            
+            // 1. Add user message immediately
+            chatBox.innerHTML += `<div class='message-bubble user-msg'>${userInput}</div>`;
+
+            // 2. Send message to Flask backend
+            const response = await fetch("/get", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userInput })
+            });
+
+            const data = await response.json();
+
+            // 3. Display the bot's response
+            chatBox.innerHTML += `<div class='message-bubble bot-msg'>🤖 ${data.response}</div>`;
+            
+            // 4. Cleanup and scroll
+            document.getElementById("user-input").value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Optional: Send message on Enter key press
+        document.getElementById("user-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

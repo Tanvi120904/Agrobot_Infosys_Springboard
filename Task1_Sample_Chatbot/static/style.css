@@ -1,0 +1,240 @@
+/* Global Reset and Body Styling */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #e8f5e9;
+    background-size: cover;
+}
+
+
+
+/* --- Core Project Colors --- */
+:root {
+    --primary-green: #2E7D32; /* Deeper, sophisticated green */
+    --light-green: #E8F5E9; /* Very light background for bot messages */
+    --dark-text: #1a1a1a;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+/* --- Container Styling (Chat and Form) --- */
+.chat-container, .form-container {
+    width: 100%;
+    max-width: 600px; 
+    background: #c4ecd6;
+    border-radius: 12px; 
+    box-shadow: 0 4px 20px var(--shadow-color); /* Pronounced, soft shadow */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+}
+
+/* --- Header Styling --- */
+.chat-header {
+    background-color: var(--primary-green);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.chat-header h2 {
+    margin: 0 0 5px 0;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: white; 
+}
+
+.welcome-message {
+    font-size: 1.2rem;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.logout-link {
+    color: #c8e6c9; 
+    text-decoration: underline;
+    font-weight: 400;
+    transition: color 0.2s;
+}
+
+.logout-link:hover {
+    color: rgb(119, 2, 2);
+}
+
+/* --- Chat Box Display Area --- */
+.chat-box {
+    flex-grow: 1;
+    height: 450px; /* Increased height */
+    overflow-y: auto;
+    padding: 20px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Scrollbar styling (for a sleeker look) */
+.chat-box::-webkit-scrollbar {
+    width: 8px;
+}
+.chat-box::-webkit-scrollbar-thumb {
+    background-color: #b0c2b0; /* Subtler scrollbar */
+    border-radius: 4px;
+}
+
+/* --- Message Bubbles --- */
+.message-bubble {
+    max-width: 80%;
+    padding: 12px 18px;
+    border-radius: 18px;
+    line-height: 1.5;
+    font-size: 0.95rem;
+    word-wrap: break-word;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.user-msg {
+    align-self: flex-end; 
+    background-color: var(--primary-green);
+    color: white;
+    border-top-right-radius: 4px; 
+}
+
+.bot-msg {
+    align-self: flex-start; 
+    background-color: var(--light-green); 
+    color: var(--dark-text);
+    border-top-left-radius: 4px; 
+}
+
+.initial-msg {
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+/* --- Input Area --- */
+.input-box {
+    display: flex;
+    padding: 15px 20px;
+    background-color: #bff0e5; /* Slightly off-white input tray */
+    border-top: 1px solid #e0e0e0;
+}
+
+#user-input {
+    flex: 1;
+    padding: 12px 18px;
+    border: 1px solid #cccccc;
+    border-radius: 25px; 
+    margin-right: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+#user-input:focus {
+    border-color: var(--primary-green);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1); /* Subtle green glow */
+}
+
+button {
+    background: var(--primary-green);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 50%; 
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+button:hover {
+    background: #388e3c; /* Darker hover state */
+    transform: translateY(-1px);
+}
+
+.send-icon {
+    color: white;
+}
+
+/* --- Form Styling (Login/Register) --- */
+.form-container {
+    padding: 40px;
+    text-align: center;
+    background-color: #fafffc;
+
+}
+
+.form-container h2 {
+    color: var(--primary-green);
+    font-weight: 600;
+    margin-bottom: 30px;
+    background-color: #fafffc;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container input[type="text"], 
+.form-container input[type="password"] {
+    width: 80%; /* Slightly narrower forms look cleaner */
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #685757;
+    background-color: #e0e8ed;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.form-container button {
+    width: 80%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background-color: var(--primary-green);
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.form-container button:hover {
+    background-color: #;
+    transform: none; /* Override chat button transform */
+}
+
+.form-container p {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 1.2rem;
+}
+
+.form-container a {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Flash Messages */
+.flash p {
+    padding: 10px 15px;
+    border-radius: 6px;
+    color: #a94442;
+    background-color: #f9d7da;
+    border: 1px solid #f5c6cb;
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+

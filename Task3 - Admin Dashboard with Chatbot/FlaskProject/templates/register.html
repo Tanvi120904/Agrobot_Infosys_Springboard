@@ -1,26 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Agri Chatbot - Register</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="utf-8">
+  <title>Agri Chatbot – Register</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="bg">
-<div class="auth-container">
-  <h2>Create Account</h2>
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      {% for cat,msg in messages %}
-        <div class="flash {{ cat }}">{{ msg }}</div>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
-  <form method="post">
-    <input name="username" placeholder="Username" required>
-    <input name="password" type="password" placeholder="Password" required>
-    <button type="submit">Register</button>
-  </form>
-  <p>Already have one? <a href="{{ url_for('index') }}">Login</a></p>
-</div>
+<body>
+
+  <div class="background-image"></div>
+
+  <div class="form-container">
+    <h2>Join Agri Chatbot 🌱</h2>
+    <p class="subtitle">Create your account to get started</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash">
+          {% for category, message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" onsubmit="clearFieldsAfterSubmit()">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="{{ url_for('index') }}">Login</a></p>
+  </div>
+
+  <script>
+    function clearFieldsAfterSubmit() {
+      setTimeout(() => {
+        document.querySelectorAll('input[type="text"], input[type="password"]').forEach(i => i.value = "");
+      }, 100);
+    }
+  </script>
 </body>
 </html>
