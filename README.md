@@ -1,3 +1,4 @@
+
 # 🌾 AI-AgroBot
 
 An **AI-powered agricultural assistant** designed to help farmers monitor crop health, detect diseases, and get instant farming guidance through text, images, and voice.
@@ -64,7 +65,7 @@ The system integrates:
 
 ## 🗂️ Documentation
 
-A detailed documentation file is included, containing: 
+A detailed documentation file is included, containing: [Final_Project_Documentation_AI-AgroBot-Universal AI-based Agricultural Assistant.docx](https://github.com/user-attachments/files/23290879/Final_Project_Documentation_AI-AgroBot-Universal.AI-based.Agricultural.Assistant.docx)
 
 * Project statement
 * System architecture diagram
@@ -104,3 +105,4 @@ A detailed documentation file is included, containing:
 
 * Task 3: Admin Dashboard and Multilingual Support
 * **Final Submission:** Added Image Analysis, Voice-to-Text, and Documentation
+
