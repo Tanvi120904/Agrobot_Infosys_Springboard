@@ -64,7 +64,7 @@ The system integrates:
 
 ## 🗂️ Documentation
 
-A detailed documentation file  is included, containing:
+A detailed documentation file is included, containing: 
 
 * Project statement
 * System architecture diagram
@@ -100,7 +100,7 @@ A detailed documentation file  is included, containing:
 **Infosys Springboard Internship Project (2025)**
 
 * Task 1: Login & Registration System
-* Task 2: Chatbot and Profile Management[Final_Project_Documentation_AI-AgroBot-Universal AI-based Agricultural Assistant.docx](https://github.com/user-attachments/files/23290835/Final_Project_Documentation_AI-AgroBot-Universal.AI-based.Agricultural.Assistant.docx)
+* Task 2: Chatbot and Profile Management
 
 * Task 3: Admin Dashboard and Multilingual Support
 * **Final Submission:** Added Image Analysis, Voice-to-Text, and Documentation
