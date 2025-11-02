@@ -56,10 +56,10 @@ Built as part of the **Infosys Springboard Internship**, this project combines *
 The system integrates:
 
 * **Frontend (HTML, CSS, JS)** for UI
-* **Backend (Python / FastAPI or Django)** for authentication and data flow
+* **Backend (Python Flask)** for authentication and data flow
 * **AI Model** for image classification
-* **Database (SQLite / PostgreSQL)** for user and admin data
-* **APIs** for chatbot, translation, and speech recognition
+* **Database (SQLite)** for user and admin data
+* **API (OPENAI_API_KEY)** for chatbot, translation, and speech recognition
 
 ---
 
