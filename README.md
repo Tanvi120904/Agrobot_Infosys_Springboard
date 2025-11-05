@@ -102,9 +102,9 @@ A detailed documentation file is included, containing: [Final_Project_Documentat
 
 * Task 1: Login & Registration System [Task1_Documentation_and_Screenshots.docx](https://github.com/user-attachments/files/23291857/Task1_Documentation_and_Screenshots.docx)
 
-* Task 2: Chatbot and Profile Management [Task2_Documentation_and_Screenshots.docx](https://github.com/user-attachments/files/23291858/Task2_Documentation_and_Screenshots.docx)
+* Task 2: Chatbot and Multilingual Support[Task2_Documentation_and_Screenshots.docx](https://github.com/user-attachments/files/23291858/Task2_Documentation_and_Screenshots.docx)
   
-* Task 3: Admin Dashboard and Multilingual Support [Task3_Documentation_and_Screenshot.docx](https://github.com/user-attachments/files/23291859/Task3_Documentation_and_Screenshot.docx)
+* Task 3: Admin Dashboard and Multilingual Support. [Task3_Documentation_and_Screenshot.docx](https://github.com/user-attachments/files/23291859/Task3_Documentation_and_Screenshot.docx)
   
 * **Final Submission:** Added Image Analysis, Voice-to-Text, and Documentation [Final_Project_Documentation_AI-AgroBot-Universal AI-based Agricultural Assistant.docx](https://github.com/user-attachments/files/23291856/Final_Project_Documentation_AI-AgroBot-Universal.AI-based.Agricultural.Assistant.docx)
 
