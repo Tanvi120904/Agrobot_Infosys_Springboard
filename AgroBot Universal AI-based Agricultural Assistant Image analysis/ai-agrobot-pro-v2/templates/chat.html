@@ -1,52 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<!-- Hero Section -->
-<div class="hero-section">
-  <h2>🌾 Welcome to AI-AgroBot</h2>
-  <p>Your intelligent farming assistant powered by advanced AI. Get instant answers about crops, pests, soil management, and sustainable farming practices.</p>
-</div>
-
-<!-- Feature Cards -->
-<div class="features-grid">
-  <div class="feature-card">
-    <span class="feature-icon">🌱</span>
-    <h3>Crop Management</h3>
-    <p>Get expert advice on crop selection, planting schedules, and growth optimization for your region.</p>
-  </div>
-
-  <div class="feature-card">
-    <span class="feature-icon">🐛</span>
-    <h3>Pest & Disease Control</h3>
-    <p>Identify pests and diseases quickly with AI-powered image analysis and receive treatment recommendations.</p>
-  </div>
-
-  <div class="feature-card">
-    <span class="feature-icon">🌍</span>
-    <h3>Soil Analysis</h3>
-    <p>Understand your soil composition and get personalized fertilization and irrigation strategies.</p>
-  </div>
-
-  <div class="feature-card">
-    <span class="feature-icon">☁️</span>
-    <h3>Weather Insights</h3>
-    <p>Access weather-based farming recommendations and plan your activities for optimal results.</p>
-  </div>
-
-  <div class="feature-card">
-    <span class="feature-icon">💡</span>
-    <h3>Smart Tips</h3>
-    <p>Learn sustainable farming practices and modern agricultural techniques to boost productivity.</p>
-  </div>
-
-  <div class="feature-card">
-    <span class="feature-icon">🌐</span>
-    <h3>Multi-Language Support</h3>
-    <p>Chat in your preferred language - English, Hindi, or Tamil. Agriculture knowledge for everyone!</p>
-  </div>
-</div>
-
-<!-- Main Chat Container -->
+<!-- Chat Container -->
 <div class="container">
   <!-- Sidebar -->
   <aside class="sidebar">
@@ -63,7 +18,18 @@
       </p>
       <p style="text-align: center; color: var(--text-light); font-size: 14px;">Login to save your chat history and personalize your experience.</p>
     {% endif %}
-
+    
+    <hr>
+    
+    <!-- Quick Tips -->
+    <h4 style="color: var(--secondary); font-size: 16px; margin-bottom: 12px; font-weight: 600;">💡 Quick Tips</h4>
+    <div style="background: var(--bg); padding: 12px; border-radius: 10px; font-size: 13px; line-height: 1.6; color: var(--text-light);">
+      <p style="margin: 0 0 8px 0;">• Be specific with your questions</p>
+      <p style="margin: 0 0 8px 0;">• Upload images for better analysis</p>
+      <p style="margin: 0 0 8px 0;">• Mention your crop and region</p>
+      <p style="margin: 0;">• Use voice input for convenience</p>
+    </div>
+    
     {% if recent_users %}
       <hr>
       <h4>👥 Recent Users</h4>
@@ -77,48 +43,67 @@
         {% endfor %}
       </ul>
     {% endif %}
+    
+    <hr>
+    
+    <!-- Back to Home -->
+    <a href="{{ url_for('home') }}" class="btn" style="width: 100%; background: linear-gradient(135deg, var(--secondary) 0%, #65a30d 100%);">
+      🏠 Back to Home
+    </a>
   </aside>
-
+  
   <!-- Chat Panel -->
   <section class="chat-panel">
     <div id="messages" class="messages" aria-live="polite">
       <!-- Welcome message -->
       <div class="message bot">
         <div class="bubble">
-          <strong>🌾 Welcome to AI-AgroBot!</strong><br>
-          I'm here to help you with all your farming questions. You can ask me about:
+          <strong>🌾 Welcome to AI-AgroBot Chat!</strong><br>
+          I'm your smart farming assistant. I can help you with:
           <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
-            <li>🌱 Best crops for your soil and region</li>
-            <li>🐛 Pest identification and control</li>
-            <li>💧 Irrigation and water management</li>
-            <li>🌾 Fertilization schedules</li>
-            <li>📷 Image analysis for diseases</li>
+            <li>🌱 Crop selection and cultivation advice</li>
+            <li>🐛 Pest and disease identification</li>
+            <li>💧 Water and irrigation management</li>
+            <li>🌍 Soil health and fertilization</li>
+            <li>📷 Image-based plant diagnosis</li>
+            <li>☁️ Weather-based recommendations</li>
           </ul>
-          <em style="color: var(--primary-dark); display: block; margin-top: 12px;">How can I assist you today?</em>
+          <div style="margin-top: 16px; padding: 12px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+            <strong style="color: var(--primary-dark);">💬 Example Questions:</strong><br>
+            <em style="color: var(--text-light); font-size: 14px; line-height: 1.7;">
+              • "What's the best soil for cotton farming?"<br>
+              • "How do I control aphids on my tomato plants?"<br>
+              • "When should I plant wheat in Punjab?"<br>
+              • "My plant leaves are turning yellow, what should I do?"
+            </em>
+          </div>
+          <div style="margin-top: 12px; text-align: center;">
+            <strong style="color: var(--primary);">🎯 How can I help you today?</strong>
+          </div>
         </div>
       </div>
     </div>
-
+    
     <form id="chatForm" class="chat-form" onsubmit="return false;">
-      <input
-        id="msg"
+      <input 
+        id="msg" 
         type="text"
-        aria-label="Type your question"
-        placeholder="Ask: 'What's the best soil for cotton?' or 'How to control aphids?'"
+        aria-label="Type your question" 
+        placeholder="Ask: 'What's the best soil for cotton?' or 'How to control aphids?'" 
         autocomplete="off"
       >
-
+      
       <!-- Image Upload Button -->
       <label for="imageInput" class="btn" style="cursor: pointer; white-space: nowrap;" title="Upload Image for Analysis">
         📷 Image
       </label>
       <input type="file" id="imageInput" accept="image/*" style="display: none;">
-
+      
       <!-- Voice Input Button -->
       <button id="voiceBtn" type="button" class="btn" title="Voice Input" style="white-space: nowrap;">
         🎤 Voice
       </button>
-
+      
       <!-- Send Button -->
       <button id="sendBtn" type="button" class="btn" style="white-space: nowrap;">
         🚀 Send

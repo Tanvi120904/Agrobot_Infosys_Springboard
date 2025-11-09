@@ -13,7 +13,6 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from database import db, User, ChatHistory
 
-
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
@@ -32,12 +31,24 @@ login_manager.login_view = "login"
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
-@app.route("/")
-def index():
-    recent_users = []
-    if current_user.is_authenticated and current_user.role == "admin":
+
+# ==================== FIXED ROUTES ====================
+# Home page route (landing page with feature cards)
+@app.route('/')
+@app.route('/home')
+def home():
+    """Landing page with feature cards"""
+    return render_template('home.html')
+
+# Chat page route (dedicated chat interface)
+@app.route('/chat')
+def chat():
+    """Dedicated chat interface"""
+    recent_users = None
+    if current_user.is_authenticated and current_user.role == 'admin':
         recent_users = User.query.order_by(User.id.desc()).limit(20).all()
-    return render_template("index.html", recent_users=recent_users)
+    return render_template('chat.html', recent_users=recent_users)
+# ======================================================
 
 # Register / Login / Logout / Profile
 @app.route("/register", methods=["GET","POST"])
@@ -67,7 +78,7 @@ def login():
         if user and check_password_hash(user.password, request.form["password"]):
             login_user(user)
             flash("Welcome back, " + (user.name or "Farmer") + "!", "success")
-            return redirect(url_for("index"))
+            return redirect(url_for("home"))  # Changed from "index" to "home"
         flash("Invalid credentials", "danger")
     return render_template("login.html")
 
@@ -76,7 +87,7 @@ def login():
 def logout():
     logout_user()
     flash("Logged out", "info")
-    return redirect(url_for("index"))
+    return redirect(url_for("home"))  # Changed from "index" to "home"
 
 @app.route("/profile", methods=["GET","POST"])
 @login_required
@@ -120,7 +131,7 @@ def api_chat():
 @login_required
 def admin_dashboard():
     if current_user.role != "admin":
-        flash("Access denied", "danger"); return redirect(url_for("index"))
+        flash("Access denied", "danger"); return redirect(url_for("home"))  # Changed
     users = User.query.order_by(User.id.desc()).all()
     chats = ChatHistory.query.order_by(ChatHistory.created_at.desc()).limit(500).all()
     kb_content = ""
@@ -177,10 +188,13 @@ def admin_upload_kb_csv():
 ALLOWED_EXT = {'png','jpg','jpeg'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.',1)[1].lower() in ALLOWED_EXT
+
 @app.route("/admin/user/<int:user_id>")
+@login_required
 def admin_view_user(user_id):
-    if not session.get("admin"):
-        return redirect(url_for("admin_dashboard"))
+    if current_user.role != "admin":
+        flash("Access denied", "danger")
+        return redirect(url_for("home"))  # Changed
     user = User.query.get_or_404(user_id)
     chats = ChatHistory.query.filter_by(user_id=user.id).order_by(ChatHistory.created_at.desc()).all()
     return render_template("admin_view_user.html", user=user, chats=chats)
@@ -218,7 +232,7 @@ def uploaded_file(filename):
 def admin_delete_user(user_id):
     if current_user.role != "admin":
         flash("Access denied!", "danger")
-        return redirect(url_for("index"))
+        return redirect(url_for("home"))  # Changed
 
     user = User.query.get_or_404(user_id)
     if user.role == "admin":
@@ -235,7 +249,7 @@ def admin_delete_user(user_id):
 def admin_clear_chats():
     if current_user.role != "admin":
         flash("Access denied!", "danger")
-        return redirect(url_for("index"))
+        return redirect(url_for("home"))  # Changed
 
     ChatHistory.query.delete()
     db.session.commit()

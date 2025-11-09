@@ -1,6 +1,5 @@
-
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('script loaded');
+  console.log('🌾 AgroBot script loaded');
   const messages = document.getElementById('messages');
   const input = document.getElementById('msg');
   const sendBtn = document.getElementById('sendBtn');
@@ -23,12 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const transcript = event.results[0][0].transcript;
       input.value = transcript;
       updateVoiceButton(false);
+      // Show success feedback
+      showNotification('✓ Voice captured successfully!', 'success');
     };
 
     recognition.onerror = (event) => {
       console.error('Speech recognition error:', event.error);
       updateVoiceButton(false);
-      addMessage('system', `Voice input error: ${event.error}`);
+      showNotification(`Voice input error: ${event.error}`, 'error');
     };
 
     recognition.onend = () => {
@@ -42,14 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateVoiceButton(listening) {
     isListening = listening;
     if (voiceBtn) {
-      voiceBtn.textContent = listening ? '🎤 Listening...' : '🎤 Voice';
-      voiceBtn.style.background = listening ? '#ff4444' : '';
+      voiceBtn.innerHTML = listening ? '🎤 Listening...' : '🎤 Voice';
+      voiceBtn.style.background = listening ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' : '';
+      voiceBtn.style.animation = listening ? 'pulse 1.5s infinite' : '';
     }
   }
 
   function toggleVoiceInput() {
     if (!recognition) {
-      addMessage('system', 'Voice input is not supported in your browser');
+      showNotification('Voice input is not supported in your browser', 'error');
       return;
     }
 
@@ -60,15 +62,55 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         recognition.start();
         updateVoiceButton(true);
+        showNotification('🎤 Listening... Speak now', 'info');
       } catch (error) {
         console.error('Error starting voice recognition:', error);
+        showNotification('Could not start voice input', 'error');
       }
     }
+  }
+
+  function showNotification(text, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = text;
+    notification.style.cssText = `
+      position: fixed;
+      top: 100px;
+      right: 24px;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      animation: slideInRight 0.3s ease;
+      font-weight: 500;
+      max-width: 350px;
+    `;
+
+    if (type === 'success') {
+      notification.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+      notification.style.color = 'white';
+    } else if (type === 'error') {
+      notification.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+      notification.style.color = 'white';
+    } else {
+      notification.style.background = 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)';
+      notification.style.color = 'white';
+    }
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.style.animation = 'slideOutRight 0.3s ease';
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
   }
 
   function addMessage(who, text, imageData = null) {
     const el = document.createElement('div');
     el.className = 'message ' + who;
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
 
     const bubble = document.createElement('div');
     bubble.className = 'bubble';
@@ -82,14 +124,15 @@ document.addEventListener('DOMContentLoaded', () => {
       img.src = imageData;
       img.alt = 'Uploaded image';
       img.className = 'chat-image';
+      img.style.maxWidth = '100%';
+      img.style.borderRadius = '12px';
 
       imgContainer.appendChild(img);
       bubble.appendChild(imgContainer);
 
-      // Add some space between image and text
       if (text) {
         const textSpacer = document.createElement('div');
-        textSpacer.style.marginTop = '10px';
+        textSpacer.style.marginTop = '12px';
         bubble.appendChild(textSpacer);
       }
     }
@@ -99,10 +142,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const textElement = document.createElement('div');
       textElement.className = 'message-text';
 
-      // Convert markdown-style formatting to HTML
+      // Convert markdown-style formatting to HTML with better styling
       const formattedText = text
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong style="color: inherit; font-weight: 700;">$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em style="font-style: italic;">$1</em>')
         .replace(/\n/g, '<br>');
 
       textElement.innerHTML = formattedText;
@@ -111,7 +154,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     el.appendChild(bubble);
     messages.appendChild(el);
+
+    // Smooth animation
+    setTimeout(() => {
+      el.style.transition = 'all 0.3s ease';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    }, 10);
+
     messages.scrollTop = messages.scrollHeight;
+  }
+
+  function showTypingIndicator() {
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message bot typing-indicator';
+    typingDiv.id = 'typing-indicator';
+    typingDiv.innerHTML = `
+      <div class="bubble" style="padding: 16px 20px;">
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <div style="width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out;"></div>
+          <div style="width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out 0.2s;"></div>
+          <div style="width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out 0.4s;"></div>
+        </div>
+      </div>
+    `;
+    messages.appendChild(typingDiv);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function removeTypingIndicator() {
+    const typingIndicator = document.getElementById('typing-indicator');
+    if (typingIndicator) {
+      typingIndicator.remove();
+    }
   }
 
   function handleImageUpload(file) {
@@ -121,7 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Check file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         reject(new Error('Image size should be less than 5MB'));
         return;
@@ -146,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('message', textMessage);
       }
 
-      console.log('Sending image analysis request...');
+      console.log('📤 Sending image analysis request...');
 
       const res = await fetch('/api/analyze-image', {
         method: 'POST',
@@ -155,7 +229,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const responseText = await res.text();
 
-      // Check if we got HTML (login page)
       if (responseText.trim().startsWith('<!DOCTYPE') || responseText.includes('<html>') || responseText.includes('login')) {
         throw new Error('Authentication required. Please log in to use image analysis.');
       }
@@ -170,12 +243,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      // Parse successful JSON response
       const data = JSON.parse(responseText);
       return data;
 
     } catch (error) {
-      console.error('Image analysis error:', error);
+      console.error('❌ Image analysis error:', error);
       throw error;
     }
   }
@@ -187,44 +259,47 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!msg && !imageFile) return;
 
     sendBtn.disabled = true;
+    sendBtn.innerHTML = '⏳ Sending...';
 
     try {
-      // Handle image upload and analysis
       if (imageFile) {
-        addMessage('system', 'Uploading and analyzing image...');
+        showNotification('📤 Uploading image...', 'info');
 
-        // First, read the image for display
         const imageData = await handleImageUpload(imageFile);
-
-        // Show user message with image
-        const displayMessage = msg || `I uploaded this image for analysis`;
+        const displayMessage = msg || `📷 Uploaded image for analysis`;
         addMessage('user', displayMessage, imageData);
 
-        // Analyze the image
+        showTypingIndicator();
+
         try {
           const analysisResult = await analyzeImage(imageFile, msg);
 
+          removeTypingIndicator();
+
           if (analysisResult.success) {
             addMessage('bot', analysisResult.response);
+            showNotification('✓ Analysis complete!', 'success');
           } else {
-            addMessage('bot', `Analysis completed with issues: ${analysisResult.error}`);
+            addMessage('bot', `⚠️ Analysis completed with issues: ${analysisResult.error}`);
           }
         } catch (analysisError) {
+          removeTypingIndicator();
           if (analysisError.message.includes('Authentication required') || analysisError.message.includes('login')) {
             addMessage('bot', '🔒 Please log in to use the image analysis feature. You can still chat without images.');
+            showNotification('Login required for image analysis', 'error');
           } else {
-            addMessage('bot', `Image analysis failed: ${analysisError.message}`);
+            addMessage('bot', `❌ Image analysis failed: ${analysisError.message}`);
+            showNotification('Analysis failed', 'error');
           }
         }
 
-        // Clear image input
         imageInput.value = '';
       }
-      // Handle text message only
       else if (msg) {
         addMessage('user', msg);
 
-        // Send to chat API
+        showTypingIndicator();
+
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: {
@@ -233,16 +308,21 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify({message: msg})
         });
 
+        removeTypingIndicator();
+
         if (!res.ok) throw new Error('Network response not ok');
         const data = await res.json();
-        addMessage('bot', data.response || 'No response');
+        addMessage('bot', data.response || 'No response received');
       }
 
     } catch (err) {
-      console.error('Send message error:', err);
-      addMessage('bot', `Error: ${err.message}`);
+      console.error('❌ Send message error:', err);
+      removeTypingIndicator();
+      addMessage('bot', `⚠️ Error: ${err.message}`);
+      showNotification('Failed to send message', 'error');
     } finally {
       sendBtn.disabled = false;
+      sendBtn.innerHTML = '🚀 Send';
       input.value = '';
       input.focus();
     }
@@ -259,29 +339,83 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Image input change handler
   imageInput && imageInput.addEventListener('change', (e) => {
     if (e.target.files.length > 0) {
       const file = e.target.files[0];
 
-      // Validate file type
       if (!file.type.startsWith('image/')) {
-        addMessage('system', 'Please select a valid image file (JPEG, PNG, GIF, WebP)');
+        showNotification('Please select a valid image file', 'error');
         imageInput.value = '';
         return;
       }
 
-      // Validate file size
       if (file.size > 5 * 1024 * 1024) {
-        addMessage('system', 'Image size must be less than 5MB');
+        showNotification('Image size must be less than 5MB', 'error');
         imageInput.value = '';
         return;
       }
 
-      console.log('Image selected:', file.name, file.type, file.size);
+      console.log('✓ Image selected:', file.name);
+      showNotification(`✓ Image selected: ${file.name}`, 'success');
 
-      // Auto-send the image
-      sendMessage();
+      // Auto-send after selection
+      setTimeout(() => sendMessage(), 300);
     }
   });
+
+  // Add focus effect to input
+  input && input.addEventListener('focus', () => {
+    input.parentElement.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
+  });
+
+  input && input.addEventListener('blur', () => {
+    input.parentElement.style.boxShadow = '';
+  });
 });
+
+// Add CSS animations dynamically
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideInRight {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOutRight {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes bounce {
+    0%, 80%, 100% {
+      transform: scale(0);
+      opacity: 0.5;
+    }
+    40% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+`;
+document.head.appendChild(style);
