@@ -461,29 +461,45 @@ button:disabled {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
 }
 
-/* ===== AUTH CARD ===== */
+/* ===== COMPACT AUTH CARD ===== */
 .auth-card {
-  max-width: 480px;
-  margin: 40px auto;
+  max-width: 520px;
+  margin: 16px auto;
   background: var(--card);
-  padding: 40px;
-  border-radius: 24px;
+  padding: 20px 32px;
+  border-radius: 20px;
   box-shadow: var(--shadow-lg);
   border: 2px solid var(--border);
 }
 
+.auth-card > div:first-child {
+  margin-bottom: 10px !important;
+}
+
+.auth-card > div:first-child span {
+  font-size: 42px !important;
+}
+
 .auth-card h2 {
   margin-top: 0;
-  margin-bottom: 24px;
+  margin-bottom: 6px;
   color: var(--primary-dark);
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
   text-align: center;
 }
 
+.auth-card > p {
+  text-align: center;
+  color: var(--text-light);
+  margin-bottom: 14px !important;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
 .auth-card label {
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: var(--text);
   font-size: 15px;
   font-weight: 500;
@@ -493,10 +509,10 @@ button:disabled {
 .auth-card select,
 .auth-card textarea {
   width: 100%;
-  padding: 12px 16px;
-  border-radius: 12px;
+  padding: 9px 14px;
+  border-radius: 10px;
   border: 2px solid var(--border);
-  margin-top: 6px;
+  margin-top: 3px;
   font-size: 15px;
   transition: all 0.3s ease;
   background: var(--bg);
@@ -515,19 +531,54 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 24px;
+  margin-top: 14px;
   justify-content: space-between;
 }
 
-.muted {
-  color: var(--text-light);
-  text-decoration: none;
-  font-size: 14px;
-  transition: color 0.3s ease;
+.auth-card .actions button {
+  padding: 10px 20px;
+  font-size: 15px;
 }
 
-.muted:hover {
-  color: var(--primary);
+.auth-card > div:last-child {
+  text-align: center;
+  margin-top: 12px !important;
+}
+
+.auth-card > div:last-child span,
+.auth-card > div:last-child a {
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .auth-card {
+    margin: 16px auto;
+    padding: 20px 24px;
+    max-width: 95%;
+  }
+
+  .auth-card h2 {
+    font-size: 22px;
+  }
+
+  .auth-card label {
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+
+  .auth-card input,
+  .auth-card select {
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+}
+
+/* Ensure main container doesn't add extra spacing */
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 24px;
 }
 
 /* ===== ADMIN SECTION ===== */
